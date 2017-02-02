@@ -136,5 +136,4 @@ public class ConnectionManager
             this.status = ConnectionStatus.CLOSED;
         }
     }
-
 }
