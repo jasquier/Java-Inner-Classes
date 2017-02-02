@@ -120,7 +120,14 @@ public class ConnectionManager
 
         public String connect()
         {
-            return "Connected to " + getIP() + ":" + getPort() + " via " + getProtocol().toString();
+            if ( status.equals(ConnectionStatus.OPEN) )
+            {
+                return "Connected to " + getIP() + ":" + getPort() + " via " + getProtocol().toString();
+            }
+            else
+            {
+                return "Connection closed";
+            }
         }
 
         public void close()
