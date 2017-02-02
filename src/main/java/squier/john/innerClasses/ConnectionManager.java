@@ -12,7 +12,7 @@ public class ConnectionManager
     private int numConnections;
     private List<Connection> connectionList;
 
-    private static final int MAX_CONNECTIONS = 100;
+    private static final int MAX_CONNECTIONS = 10;
 
     public ConnectionManager()
     {
@@ -25,21 +25,41 @@ public class ConnectionManager
     public int getNumConnections()  { return numConnections;  }
     public List<Connection>getConnectionList() { return connectionList; }
 
-    // these create connections (factory) and add to the list
     public Connection getConnection(String ip, Protocol protocol)
     {
-        Connection c = new ManagedConnection(ip, protocol);
-        connectionList.add()
+        return getConnection(ip, 1, protocol);
     }
 
     public Connection getConnection(String ip, int port)
     {
-        return new ManagedConnection(ip, p)
+        return getConnection(ip, port, Protocol.HTTP);
     }
 
     public Connection getConnection(String ip, int port, Protocol protocol)
     {
-        return null;
+        if ( aConnectionCanBeAdded() )
+        {
+            Connection c = new ManagedConnection(ip, port, protocol);
+
+            addConnectionToList(c);
+
+            return c;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private boolean aConnectionCanBeAdded()
+    {
+        return numConnections < connectionLimit;
+    }
+
+    private void addConnectionToList(Connection c)
+    {
+        connectionList.add(c);
+        numConnections++;
     }
 
     public class ManagedConnection implements Connection
@@ -48,21 +68,6 @@ public class ConnectionManager
         private int port;
         private Protocol protocol;
         private ConnectionStatus status;
-
-        public ManagedConnection(String ipAddress, Protocol protocol)
-        {
-            this.ipAddress = ipAddress;
-            this.port = 1;
-            this.protocol = protocol;
-            this.status = ConnectionStatus.OPEN;
-        }
-
-        public ManagedConnection(String ipAddress, int port)
-        {
-            this.ipAddress = ipAddress;
-            this.port = port;
-            this.protocol = Protocol.HTTP;
-        }
 
         public ManagedConnection(String ipAddress, int port, Protocol protocol)
         {
@@ -73,17 +78,38 @@ public class ConnectionManager
 
         public String getIPAddress()
         {
-            return ipAddress;
+            if ( status.equals(ConnectionStatus.OPEN) )
+            {
+                return ipAddress;
+            }
+            else
+            {
+                return "CONNECTION CLOSED";
+            }
         }
 
         public int getPort()
         {
-            return port;
+            if ( status.equals(ConnectionStatus.OPEN) )
+            {
+                return port;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public Protocol getProtocol()
         {
-            return protocol;
+            if ( status.equals(ConnectionStatus.OPEN) )
+            {
+                return protocol;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public ConnectionStatus getStatus()
@@ -93,11 +119,13 @@ public class ConnectionManager
 
         public String connect()
         {
+            // returns a string of info about the connection
             return null;
         }
 
         public void close()
         {
+            // should change connection status
             return;
         }
     }

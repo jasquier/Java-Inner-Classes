@@ -90,4 +90,19 @@ public class ConnectionManagerTest
                             && actual.getPort() == port
                             && actual.getProtocol().equals(protocol));
     }
+
+    @Test
+    public void getConnectionWhenMaxConnectionsAlreadyExist()
+    {
+        // fill up the connection list with max connections
+        for ( int i = 0; i < connectionManager.getConnectionLimit(); i++ )
+        {
+            connectionManager.getConnection(ipAddress, port, protocol);
+        }
+
+        // try to get another connection
+        Connection expected = connectionManager.getConnection(ipAddress, port);
+
+        Assert.assertNull(expected);
+    }
 }
