@@ -120,10 +120,7 @@ public class ConnectionManagerTest
         {
             c1.close();
         }
-        catch ( Exception e )
-        {
-
-        }
+        catch ( Exception e ) {}
 
         int expectedAfterClose = 1;
         int actualAfterClose = connectionManager.getNumConnections();
