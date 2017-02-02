@@ -92,11 +92,21 @@ public class ManagedConnectionTest
     }
 
     @Test
-    public void connectTest()
+    public void connectWhenConnectionOpenTest()
     {
         String expected = "Connected to 128.0.0.0:1000 via FTP";
 
         String actual = connection.connect();
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void connectWhenConnectionClosedTest()
+    {
+        String expected = "Connection closed";
+
+        String actual = managedConnectionClosed.connect();
 
         Assert.assertEquals(expected, actual);
     }
