@@ -74,9 +74,10 @@ public class ConnectionManager
             this.ipAddress = ipAddress;
             this.port = port;
             this.protocol = protocol;
+            this.status = ConnectionStatus.OPEN;
         }
 
-        public String getIPAddress()
+        public String getIP()
         {
             if ( status.equals(ConnectionStatus.OPEN) )
             {
@@ -119,14 +120,13 @@ public class ConnectionManager
 
         public String connect()
         {
-            // returns a string of info about the connection
-            return null;
+            return "Connected to " + getIP() + ":" + getPort() + " via " + getProtocol().toString();
         }
 
         public void close()
         {
-            // should change connection status
-            return;
+            ConnectionManager.this.numConnections--;
+            this.status = ConnectionStatus.CLOSED;
         }
     }
 

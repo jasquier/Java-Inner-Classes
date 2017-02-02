@@ -41,7 +41,7 @@ public class ManagedConnectionTest
     public void getIpAddressConnectionOpenTest()
     {
         String expected = "128.0.0.0";
-        String actual = connection.getIPAddress();
+        String actual = connection.getIP();
 
         Assert.assertEquals(expected, actual);
     }
@@ -49,7 +49,7 @@ public class ManagedConnectionTest
     @Test
     public void getIpAddressConnectionClosedTest()
     {
-        Assert.assertTrue(managedConnectionClosed.getIPAddress().equals("CONNECTION CLOSED"));
+        Assert.assertTrue(managedConnectionClosed.getIP().equals("CONNECTION CLOSED"));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class ManagedConnectionTest
     @Test
     public void getProtocolConnectionClosedTest()
     {
-        Assert.assertTrue(managedConnectionClosed.getProtocol().equals(null));
+        Assert.assertNull(managedConnectionClosed.getProtocol());
     }
 
     @Test

@@ -7,7 +7,7 @@ import java.io.Closeable;
  */
 public interface Connection extends Closeable
 {
-    String getIPAddress();
+    String getIP();
     int getPort();
     Protocol getProtocol();
     String connect();

@@ -28,7 +28,7 @@ public class ConnectionManagerTest
     @Test
     public void getConnectionLimitTest()
     {
-        int expected = 100;
+        int expected = 10;
         int actual = connectionManager.getConnectionLimit();
 
         Assert.assertEquals(expected, actual);
@@ -51,11 +51,12 @@ public class ConnectionManagerTest
         connectionManager.getConnection(ipAddress, port, protocol);
 
         List<Connection> expected = connectionManager.getConnectionList();
+        Connection c2 = expected.get(0);
 
         Assert.assertTrue( expected.size() == 1
-                            && expected.get(0).getIPAddress().equals(ipAddress)
-                            && expected.get(0).getPort() == port
-                            && expected.get(0).getProtocol().equals(protocol));
+                            && c2.getIP().equals(ipAddress)
+                            && c2.getPort() == port
+                            && c2.getProtocol().equals(protocol));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class ConnectionManagerTest
         Connection actual = connectionManager.getConnection(ipAddress, protocol);
 
         Assert.assertTrue(actual instanceof  Connection
-                            && actual.getIPAddress().equals(ipAddress)
+                            && actual.getIP().equals(ipAddress)
                             && actual.getPort() == 1
                             && actual.getProtocol().equals(protocol));
     }
@@ -75,7 +76,7 @@ public class ConnectionManagerTest
         Connection actual = connectionManager.getConnection(ipAddress, port);
 
         Assert.assertTrue(actual instanceof  Connection
-                            && actual.getIPAddress().equals(ipAddress)
+                            && actual.getIP().equals(ipAddress)
                             && actual.getPort() == port
                             && actual.getProtocol().equals(Protocol.HTTP));
     }
@@ -86,7 +87,7 @@ public class ConnectionManagerTest
         Connection actual = connectionManager.getConnection(ipAddress, port, protocol);
 
         Assert.assertTrue(actual instanceof Connection
-                            && actual.getIPAddress().equals(ipAddress)
+                            && actual.getIP().equals(ipAddress)
                             && actual.getPort() == port
                             && actual.getProtocol().equals(protocol));
     }
@@ -104,5 +105,30 @@ public class ConnectionManagerTest
         Connection expected = connectionManager.getConnection(ipAddress, port);
 
         Assert.assertNull(expected);
+    }
+
+    @Test
+    public void numConnectionsTests()
+    {
+        Connection c1 = connectionManager.getConnection(ipAddress, port, protocol);
+        Connection c2 = connectionManager.getConnection(ipAddress, port, protocol);
+
+        int expectedAfterOpen = 2;
+        int actualAfterOpen = connectionManager.getNumConnections();
+
+        try
+        {
+            c1.close();
+        }
+        catch ( Exception e )
+        {
+
+        }
+
+        int expectedAfterClose = 1;
+        int actualAfterClose = connectionManager.getNumConnections();
+
+        Assert.assertTrue(expectedAfterOpen == actualAfterOpen
+                            && expectedAfterClose == actualAfterClose);
     }
 }
