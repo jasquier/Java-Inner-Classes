@@ -21,21 +21,21 @@ public class ConnectionManager
         connectionList = new ArrayList<>();
     }
 
-    public int getConnectionLimit() { return connectionLimit; }
-    public int getNumConnections()  { return numConnections;  }
-    public List<Connection>getConnectionList() { return connectionList; }
+    /*default*/ int getConnectionLimit() { return connectionLimit; }
+    /*default*/ int getNumConnections()  { return numConnections;  }
+    /*default*/ List<Connection>getConnectionList() { return connectionList; }
 
-    public Connection getConnection(String ip, Protocol protocol)
+    /*default*/ Connection getConnection(String ip, Protocol protocol)
     {
         return getConnection(ip, 1, protocol);
     }
 
-    public Connection getConnection(String ip, int port)
+    /*default*/ Connection getConnection(String ip, int port)
     {
         return getConnection(ip, port, Protocol.HTTP);
     }
 
-    public Connection getConnection(String ip, int port, Protocol protocol)
+    /*default*/ Connection getConnection(String ip, int port, Protocol protocol)
     {
         if ( aConnectionCanBeAdded() )
         {
@@ -120,7 +120,7 @@ public class ConnectionManager
 
         public String connect()
         {
-            
+
             if ( status.equals(ConnectionStatus.OPEN) )
             {
                 return "Connected to " + getIP() + ":" + getPort() + " via " + getProtocol().toString();
