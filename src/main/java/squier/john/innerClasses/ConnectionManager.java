@@ -1,5 +1,6 @@
 package squier.john.innerClasses;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +121,6 @@ public class ConnectionManager
 
         public String connect()
         {
-
             if ( status.equals(ConnectionStatus.OPEN) )
             {
                 return "Connected to " + getIP() + ":" + getPort() + " via " + getProtocol().toString();
@@ -131,7 +131,7 @@ public class ConnectionManager
             }
         }
 
-        public void close()
+        public void close() throws IOException
         {
             ConnectionManager.this.numConnections--;
             this.status = ConnectionStatus.CLOSED;

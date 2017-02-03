@@ -4,12 +4,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 /**
  * @author John A. Squier
  */
 public class ConnectionTest
 {
     Connection connection1, connection2, connectionClosed;
+    Closeable connection3;
     String ipAddress;
     int port;
     Protocol protocol;
@@ -25,11 +29,13 @@ public class ConnectionTest
         connection2 = new ConnectionManager().getConnection(ipAddress, port, protocol);
         connectionClosed = new ConnectionManager().getConnection(ipAddress, port, protocol);
 
+        connection3 = new ConnectionManager().getConnection(ipAddress, port, protocol);
+
         try
         {
             connectionClosed.close();
         }
-        catch ( Exception e )
+        catch ( IOException e )
         {
 
         }
