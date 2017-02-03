@@ -11,4 +11,5 @@ public interface Connection extends Closeable
     int getPort();
     Protocol getProtocol();
     String connect();
+    ConnectionStatus getStatus();
 }

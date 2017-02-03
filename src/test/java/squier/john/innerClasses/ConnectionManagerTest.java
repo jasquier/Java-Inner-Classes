@@ -95,13 +95,13 @@ public class ConnectionManagerTest
     @Test
     public void getConnectionWhenMaxConnectionsAlreadyExist()
     {
-        // fill up the connection list with max connections
+        // fill up the connection1 list with max connections
         for ( int i = 0; i < connectionManager.getConnectionLimit(); i++ )
         {
             connectionManager.getConnection(ipAddress, port, protocol);
         }
 
-        // try to get another connection
+        // try to get another connection1
         Connection expected = connectionManager.getConnection(ipAddress, port);
 
         Assert.assertNull(expected);

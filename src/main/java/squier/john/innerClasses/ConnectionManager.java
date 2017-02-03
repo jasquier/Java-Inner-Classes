@@ -62,7 +62,7 @@ public class ConnectionManager
         numConnections++;
     }
 
-    public class ManagedConnection implements Connection
+    private class ManagedConnection implements Connection
     {
         private String ipAddress;
         private int port;
@@ -120,6 +120,7 @@ public class ConnectionManager
 
         public String connect()
         {
+            
             if ( status.equals(ConnectionStatus.OPEN) )
             {
                 return "Connected to " + getIP() + ":" + getPort() + " via " + getProtocol().toString();

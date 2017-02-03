@@ -7,10 +7,9 @@ import org.junit.Test;
 /**
  * @author John A. Squier
  */
-public class ManagedConnectionTest
+public class ConnectionTest
 {
-    Connection connection;
-    ConnectionManager.ManagedConnection managedConnection1, managedConnectionClosed;
+    Connection connection1, connection2, connectionClosed;
     String ipAddress;
     int port;
     Protocol protocol;
@@ -22,14 +21,13 @@ public class ManagedConnectionTest
         port = 1000;
         protocol = Protocol.FTP;
 
-        connection = new ConnectionManager().new ManagedConnection(ipAddress, port, protocol);
-
-        managedConnection1 = new ConnectionManager().new ManagedConnection(ipAddress, port, protocol);
-        managedConnectionClosed = new ConnectionManager().new ManagedConnection(ipAddress, port, protocol);
+        connection1 = new ConnectionManager().getConnection(ipAddress, port, protocol);
+        connection2 = new ConnectionManager().getConnection(ipAddress, port, protocol);
+        connectionClosed = new ConnectionManager().getConnection(ipAddress, port, protocol);
 
         try
         {
-            managedConnectionClosed.close();
+            connectionClosed.close();
         }
         catch ( Exception e )
         {
@@ -41,7 +39,7 @@ public class ManagedConnectionTest
     public void getIpAddressConnectionOpenTest()
     {
         String expected = "128.0.0.0";
-        String actual = connection.getIP();
+        String actual = connection1.getIP();
 
         Assert.assertEquals(expected, actual);
     }
@@ -49,14 +47,14 @@ public class ManagedConnectionTest
     @Test
     public void getIpAddressConnectionClosedTest()
     {
-        Assert.assertTrue(managedConnectionClosed.getIP().equals("CONNECTION CLOSED"));
+        Assert.assertTrue(connectionClosed.getIP().equals("CONNECTION CLOSED"));
     }
 
     @Test
     public void getPortConnectionOpenTest()
     {
         int expected = 1000;
-        int actual = connection.getPort();
+        int actual = connection1.getPort();
 
         Assert.assertEquals(expected, actual);
     }
@@ -64,14 +62,14 @@ public class ManagedConnectionTest
     @Test
     public void getPortConnectionClosedTest()
     {
-        Assert.assertTrue(managedConnectionClosed.getPort() == -1);
+        Assert.assertTrue(connectionClosed.getPort() == -1);
     }
 
     @Test
     public void getProtocolConnectionOpenTest()
     {
         Protocol expected = Protocol.FTP;
-        Protocol actual = connection.getProtocol();
+        Protocol actual = connection1.getProtocol();
 
         Assert.assertEquals(expected, actual);
     }
@@ -79,14 +77,14 @@ public class ManagedConnectionTest
     @Test
     public void getProtocolConnectionClosedTest()
     {
-        Assert.assertNull(managedConnectionClosed.getProtocol());
+        Assert.assertNull(connectionClosed.getProtocol());
     }
 
     @Test
     public void getStatusTest()
     {
         ConnectionStatus expected = ConnectionStatus.OPEN;
-        ConnectionStatus actual = managedConnection1.getStatus();
+        ConnectionStatus actual = connection2.getStatus();
 
         Assert.assertEquals(expected, actual);
     }
@@ -96,7 +94,7 @@ public class ManagedConnectionTest
     {
         String expected = "Connected to 128.0.0.0:1000 via FTP";
 
-        String actual = connection.connect();
+        String actual = connection1.connect();
 
         Assert.assertEquals(expected, actual);
     }
@@ -106,7 +104,7 @@ public class ManagedConnectionTest
     {
         String expected = "Connection closed";
 
-        String actual = managedConnectionClosed.connect();
+        String actual = connectionClosed.connect();
 
         Assert.assertEquals(expected, actual);
     }
@@ -114,6 +112,6 @@ public class ManagedConnectionTest
     @Test
     public void closeTest()
     {
-        Assert.assertTrue(managedConnectionClosed.getStatus().equals(ConnectionStatus.CLOSED));
+        Assert.assertTrue(connectionClosed.getStatus().equals(ConnectionStatus.CLOSED));
     }
 }
