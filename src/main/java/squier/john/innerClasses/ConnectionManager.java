@@ -1,6 +1,7 @@
 package squier.john.innerClasses;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class ConnectionManager
     private class ManagedConnection implements Connection
     {
         private String ipAddress;
+        private InetAddress ipAsInetAddr;
         private int port;
         private Protocol protocol;
         private ConnectionStatus status;
@@ -80,6 +82,7 @@ public class ConnectionManager
 
         public String getIP()
         {
+            // @@@ Implement InetAddress internal representation
             if ( status.equals(ConnectionStatus.OPEN) )
             {
                 return ipAddress;

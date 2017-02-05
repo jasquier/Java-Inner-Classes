@@ -1,6 +1,7 @@
 package squier.john.innerClasses;
 
 import java.io.Closeable;
+import java.net.InetAddress;
 
 /**
  * @author John A. Squier
